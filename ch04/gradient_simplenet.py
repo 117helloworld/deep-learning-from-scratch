@@ -1,11 +1,15 @@
 # coding: utf-8
-import sys, os
-sys.path.append(os.pardir)  # 親ディレクトリのファイルをインポートするための設定
 import numpy as np
-from common.functions import softmax, cross_entropy_error
-from common.gradient import numerical_gradient
+from gradient_copy import gradient
 
+def softmax(x): #x is vector
+    c=np.max(x)
+    l=np.exp(x-c)
+    return l/np.sum(l)
 
+def cross_entropy_error(y,t):
+    delta=1e-4
+    return -np.sum(t*np.log(y+delta))  
 class simpleNet:
     def __init__(self):
         self.W = np.random.randn(2,3)
@@ -26,6 +30,7 @@ t = np.array([0, 0, 1])
 net = simpleNet()
 
 f = lambda w: net.loss(x, t)
-dW = numerical_gradient(f, net.W)
+
+dW = gradient(f, net.W)
 
 print(dW)
