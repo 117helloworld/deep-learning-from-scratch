@@ -17,3 +17,16 @@ def cross_entropy_error(y,t):
 def square_mean_error(y,t):
     return 0.5*np.sum(np.square(y-t))
 
+def numerical_gradient(f,x):
+    grad=np.zeros_like(x)
+    h=1e-4
+    for i in range(x.size):
+        tmp=x[i]
+        x[i]=tmp+h
+        delta_plus_h=f(x)
+        x[i]=tmp-h
+        delta_minus_h=f(x)
+        x[i]=tmp
+
+        grad[i]=(delta_plus_h-delta_minus_h)/(2*h)
+    return grad
